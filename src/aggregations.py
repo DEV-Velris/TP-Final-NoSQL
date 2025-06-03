@@ -10,7 +10,7 @@ db = client["soubieux_giraudon_drones"]
 # $sort : trie par heure croissante
 def q1_temp_hourly():
     return list(db.drone_measurements.aggregate([
-        {"$match": {"timestamp": {"$gte": datetime.utcnow() - timedelta(hours=12)}}},
+        {"$match": {"timestamp": {"$gte": datetime.now(datetime.timezone.utc) - timedelta(hours=12)}}},
         {"$group": {
             "_id": {"$hour": "$timestamp"},
             "avgTemp": {"$avg": "$temperature"}
