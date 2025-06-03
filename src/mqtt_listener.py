@@ -1,11 +1,15 @@
+# Ce script écoute un topic MQTT, reçoit des mesures de drones et les insère dans une collection timeseries MongoDB.
 import json
 import paho.mqtt.client as mqtt
 from pymongo import MongoClient
 from datetime import datetime
 
+# Connexion à la base MongoDB locale et sélection de la base de données
 client = MongoClient("mongodb://localhost:27017")
 db = client["soubieux_giraudon_drones"]
 
+# Initialise la collection timeseries si elle n'existe pas déjà
+# La collection stocke les mesures des drones avec un champ de temps et un champ méta pour l'id du drone
 def init_timeseries_collection():
     if "drone_measurements" not in db.list_collection_names():
         db.create_collection(
@@ -18,6 +22,8 @@ def init_timeseries_collection():
         )
     print("Collection timeseries prête.")
 
+# Callback appelé à chaque message reçu sur le topic MQTT
+# Décode le message, convertit le timestamp, insère dans MongoDB
 def on_message(client, userdata, msg):
     try:
         payload = json.loads(msg.payload.decode())
@@ -27,6 +33,7 @@ def on_message(client, userdata, msg):
     except Exception as e:
         print("Erreur :", e)
 
+# Fonction principale : initialise la collection, configure le client MQTT et démarre l'écoute
 def main():
     init_timeseries_collection()
 
