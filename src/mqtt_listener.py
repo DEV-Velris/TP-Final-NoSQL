@@ -41,7 +41,10 @@ def main():
     mqtt_client.connect("broker.hivemq.com", 1883)
     mqtt_client.subscribe("autonomous_drones/sensors")
     mqtt_client.on_message = on_message
-    mqtt_client.loop_forever()
+    try:
+        mqtt_client.loop_forever()
+    except KeyboardInterrupt:
+        print("Arrêt du listener MQTT (Ctrl+C détecté).")
 
 if __name__ == "__main__":
     main()
