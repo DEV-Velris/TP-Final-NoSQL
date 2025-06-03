@@ -27,13 +27,29 @@ Ce projet est un TP final pour la gestion de drones utilisant une base de donné
    cd TP-Final-NoSQL
    ```
 
-2. Installer les dépendances Python :
+2. Créer et activer un environnement virtuel Python :
+
+   Sous **Windows** :
+
+   ```sh
+   python -m venv venv
+   .\venv\Scripts\activate
+   ```
+
+   Sous **Linux/Mac** :
+
+   ```sh
+   python3 -m venv venv
+   source venv/bin/activate
+   ```
+
+3. Installer les dépendances Python :
 
    ```sh
    pip install -r requirements.txt
    ```
 
-3. Lancer MongoDB (via Docker Compose) :
+4. Lancer MongoDB (via Docker Compose) :
    ```sh
    docker compose up -d
    ```
