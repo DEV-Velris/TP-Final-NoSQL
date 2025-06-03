@@ -73,11 +73,16 @@ def q4_count_by_manufacturer():
     ]))
 
 # Nombre de mesures dans un rayon de 3km autour de Montsouris
-# $geoWithin/$centerSphere : filtre les mesures dont la localisation est dans le cercle spécifié
 def q5_near_montsouris():
+    # Utilise count_documents pour compter le nombre de documents correspondant au filtre
     return db.drone_measurements.count_documents({
+        # Filtre sur le champ location
         "location": {
+            # $geoWithin : sélectionne les documents dont la localisation est dans une zone géographique
             "$geoWithin": {
+                # $centerSphere : définit un cercle sur la sphère (terre) avec un centre et un rayon
+                # Centre : longitude 2.3388, latitude 48.8210 (Montsouris)
+                # Rayon : 3 km convertis en radians (3 / rayon de la Terre en km)
                 "$centerSphere": [[2.3388, 48.8210], 3 / 6378.1]
             }
         }
